@@ -1,0 +1,318 @@
+:root {
+  --paper: #f3ecdf;
+  --ink: #1e1a16;
+  --muted: #6d645b;
+  --card: #fffaf2;
+  --pine: #2c5a4c;
+  --pine-dark: #1e3f35;
+  --clay: #c45c26;
+  --line: #e2d8c8;
+  --warn: #8a3b2b;
+  --shadow: 0 10px 30px rgba(30, 26, 22, 0.08);
+  color: var(--ink);
+  font-family: "Source Sans 3", "Segoe UI", sans-serif;
+  background: var(--paper);
+  line-height: 1.45;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background:
+    radial-gradient(circle at top left, #f7f1e6, transparent 40%),
+    var(--paper);
+}
+
+h1,
+h2,
+h3,
+.eyebrow {
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 600;
+}
+
+h1 {
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+  margin: 0.2rem 0 0.6rem;
+}
+
+h2 {
+  font-size: 1.15rem;
+  margin: 1.4rem 0 0.5rem;
+}
+
+h3 {
+  margin: 0.15rem 0 0.35rem;
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0 0 0.8rem;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.app {
+  min-height: 100dvh;
+  padding-bottom: 5.5rem;
+}
+
+.sheet {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 1.25rem 1.1rem 2rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  color: var(--pine);
+  margin: 0;
+}
+
+.lede,
+.muted,
+.note {
+  color: var(--muted);
+}
+
+.progress {
+  font-weight: 650;
+  color: var(--pine-dark);
+}
+
+.banner {
+  background: #efe4cf;
+  border-radius: 14px;
+  padding: 0.8rem 0.95rem;
+}
+
+.banner.warn {
+  background: #f3d9d1;
+  color: var(--warn);
+}
+
+.stack,
+.job-actions,
+.pace {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.pace {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.row input,
+.row select {
+  flex: 1;
+}
+
+input,
+select {
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--card);
+  border-radius: 12px;
+  padding: 0.75rem 0.8rem;
+}
+
+label {
+  display: block;
+  margin-bottom: 0.75rem;
+  color: var(--muted);
+}
+
+.btn {
+  min-height: 48px;
+  border: 0;
+  border-radius: 999px;
+  padding: 0.7rem 1rem;
+  background: #efe6d6;
+  color: var(--ink);
+}
+
+.btn.primary {
+  background: var(--pine);
+  color: #f7f3ea;
+}
+
+.btn.ghost {
+  background: transparent;
+  text-decoration: underline;
+  min-height: 40px;
+}
+
+.job,
+.people-strip li,
+.grab-list li,
+.edit-list li,
+.code-block {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  margin-bottom: 0.8rem;
+}
+
+.job-main {
+  border: 2px solid var(--clay);
+}
+
+.job-done {
+  opacity: 0.62;
+}
+
+.job-big h3 {
+  font-size: 1.5rem;
+}
+
+.job-top,
+.bar-meta,
+.grab-list li,
+.people-strip li,
+.last-done li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  align-items: center;
+}
+
+.pill {
+  background: #efe6d6;
+  border-radius: 999px;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.78rem;
+}
+
+.pill-main {
+  background: var(--clay);
+  color: white;
+}
+
+.effort {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.people-strip,
+.grab-list,
+.edit-list,
+.choose-me,
+.bars,
+.last-done,
+.tiny-jobs {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tiny-jobs {
+  margin-top: 0.4rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.tiny-jobs .done,
+.tiny-jobs .skipped {
+  text-decoration: line-through;
+}
+
+.choose-me .btn,
+.people-strip .btn {
+  width: auto;
+}
+
+.bar {
+  height: 10px;
+  background: #efe6d6;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar span {
+  display: block;
+  height: 100%;
+  background: var(--pine);
+}
+
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  background: #fffaf2;
+  border-top: 1px solid var(--line);
+  padding: 0.4rem 0.6rem calc(0.4rem + env(safe-area-inset-bottom));
+}
+
+.tabbar button {
+  flex: 1;
+  min-height: 48px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-weight: 650;
+}
+
+.tabbar button.active {
+  color: var(--pine-dark);
+}
+
+.chore-summary {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.chore-edit {
+  margin-top: 0.8rem;
+}
+
+.check {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin: 0.3rem 0;
+}
+
+.archived {
+  opacity: 0.5;
+}
+
+.kid .btn.primary {
+  min-height: 56px;
+  font-size: 1.1rem;
+}
+
+fieldset {
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  margin: 0.6rem 0;
+}
