@@ -69,7 +69,11 @@ export function JoinScreen() {
 
       {mode === 'create' ? (
         <form className="stack" onSubmit={(e) => void onCreate(e)}>
-          <p>Add the people who live here. You can change this later.</p>
+          <p>
+            Add everyone who should get jobs. Blank rows are skipped. After
+            this, open <strong>Setup</strong> to edit chores and how often they
+            happen.
+          </p>
           {people.map((person, index) => (
             <div className="row" key={index}>
               <input

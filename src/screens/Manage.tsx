@@ -27,7 +27,7 @@ export function ManageScreen() {
   const [newChoreName, setNewChoreName] = useState('')
   const [copied, setCopied] = useState(false)
 
-  if (!household || me?.role !== 'adult') {
+  if (!household || (me && me.role !== 'adult')) {
     return (
       <main className="sheet">
         <h1>Adults only</h1>
@@ -47,6 +47,10 @@ export function ManageScreen() {
     <main className="sheet manage">
       <p className="eyebrow">Adults</p>
       <h1>People and chores</h1>
+      <p className="lede">
+        Tap a chore to change effort, how often it runs, who may do it, or
+        archive it. House pace stretches rotating jobs only.
+      </p>
       <p className="code-block">
         Share this code
         <strong> {household.code}</strong>

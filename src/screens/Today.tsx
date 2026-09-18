@@ -5,6 +5,7 @@ import { activePeople } from '../deal'
 import { EFFORT_LABELS } from '../effort'
 import { useHousehold } from '../HouseholdContext'
 import { canDo, choreFor } from '../jobs'
+import { useNav } from '../nav'
 
 export function TodayScreen() {
   const {
@@ -17,6 +18,7 @@ export function TodayScreen() {
     claimChore,
     optionalToday,
   } = useHousehold()
+  const go = useNav()
 
   useEffect(() => {
     void ensureDeal()
@@ -47,7 +49,16 @@ export function TodayScreen() {
       </header>
 
       {!me ? (
-        <p className="banner">Pick who you are on this phone so Done credits you.</p>
+        <p className="banner">
+          Pick who you are under <strong>Me</strong> so Done credits you. Adults
+          can open <strong>Setup</strong> to edit chores and how often they run.
+        </p>
+      ) : null}
+
+      {isAdult || !me ? (
+        <button type="button" className="btn" onClick={() => go('manage')}>
+          Edit chores, people, and pace
+        </button>
       ) : null}
 
       {me && out.has(me.id) ? (

@@ -1,12 +1,11 @@
 import { useState } from 'react'
 import { HouseholdProvider, useHousehold } from './HouseholdContext'
+import { NavContext, type Tab } from './nav'
 import { JoinScreen } from './screens/Join'
 import { ManageScreen } from './screens/Manage'
 import { TodayScreen } from './screens/Today'
 import { WeekScreen } from './screens/Week'
 import { WhoAmIScreen } from './screens/WhoAmI'
-
-type Tab = 'today' | 'week' | 'manage' | 'me'
 
 function Shell() {
   const { household, loading, me } = useHousehold()
@@ -23,49 +22,51 @@ function Shell() {
 
   if (!household) return <JoinScreen />
 
-  const isAdult = me?.role === 'adult'
+  const canManage = !me || me.role === 'adult'
   const current: Tab =
-    tab === 'manage' && !isAdult ? 'today' : tab
+    tab === 'manage' && !canManage ? 'today' : tab
 
   return (
-    <div className="app">
-      {current === 'today' ? <TodayScreen /> : null}
-      {current === 'week' ? <WeekScreen /> : null}
-      {current === 'manage' && isAdult ? <ManageScreen /> : null}
-      {current === 'me' ? <WhoAmIScreen /> : null}
-      <nav className="tabbar">
-        <button
-          type="button"
-          className={current === 'today' ? 'active' : ''}
-          onClick={() => setTab('today')}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          className={current === 'week' ? 'active' : ''}
-          onClick={() => setTab('week')}
-        >
-          Week
-        </button>
-        {isAdult ? (
+    <NavContext.Provider value={setTab}>
+      <div className="app">
+        {current === 'today' ? <TodayScreen /> : null}
+        {current === 'week' ? <WeekScreen /> : null}
+        {current === 'manage' && canManage ? <ManageScreen /> : null}
+        {current === 'me' ? <WhoAmIScreen /> : null}
+        <nav className="tabbar">
           <button
             type="button"
-            className={current === 'manage' ? 'active' : ''}
-            onClick={() => setTab('manage')}
+            className={current === 'today' ? 'active' : ''}
+            onClick={() => setTab('today')}
           >
-            List
+            Today
           </button>
-        ) : null}
-        <button
-          type="button"
-          className={current === 'me' ? 'active' : ''}
-          onClick={() => setTab('me')}
-        >
-          Me
-        </button>
-      </nav>
-    </div>
+          <button
+            type="button"
+            className={current === 'week' ? 'active' : ''}
+            onClick={() => setTab('week')}
+          >
+            Week
+          </button>
+          {canManage ? (
+            <button
+              type="button"
+              className={current === 'manage' ? 'active' : ''}
+              onClick={() => setTab('manage')}
+            >
+              Setup
+            </button>
+          ) : null}
+          <button
+            type="button"
+            className={current === 'me' ? 'active' : ''}
+            onClick={() => setTab('me')}
+          >
+            Me
+          </button>
+        </nav>
+      </div>
+    </NavContext.Provider>
   )
 }
 

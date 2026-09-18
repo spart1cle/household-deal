@@ -9,7 +9,11 @@ export function WhoAmIScreen() {
     <main className="sheet">
       <p className="eyebrow">This phone</p>
       <h1>Who is using this phone?</h1>
-      <p className="lede">Done taps count for the person you pick.</p>
+      <p className="lede">
+        Done taps count for the person you pick. Choose an adult on this phone
+        to see <strong>Setup</strong> — that&apos;s where you add, remove, and
+        change how often jobs run.
+      </p>
       <ul className="choose-me">
         {people.map((person) => (
           <li key={person.id}>

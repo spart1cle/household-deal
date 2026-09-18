@@ -16,6 +16,7 @@ function person(id: string, name: string, role: Person['role']): Person {
 function household(partial: Partial<Household> = {}): Household {
   return {
     code: 'TEST12',
+    startedOn: '2026-09-18',
     timezone: 'UTC',
     pace: 'normal',
     people: [
@@ -62,6 +63,20 @@ describe('isDue', () => {
     expect(isDue(trash, h, '2026-09-18')).toBe(false)
     expect(isDue(trash, h, '2026-09-17')).toBe(true)
   })
+
+  it('does not dump never-done rotating chores on day one', () => {
+    const h = household()
+    const sheets = h.chores.find((c) => c.name === 'Change sheets')!
+    const laundry = h.chores.find((c) => c.name === 'Load laundry')!
+    expect(isDue(sheets, h, '2026-09-18')).toBe(false)
+    expect(isDue(laundry, h, '2026-09-18')).toBe(false)
+  })
+
+  it('brings rotating chores due after their interval', () => {
+    const h = household({ startedOn: '2026-09-04' })
+    const sheets = h.chores.find((c) => c.name === 'Change sheets')!
+    expect(isDue(sheets, h, '2026-09-18')).toBe(true)
+  })
 })
 
 describe('dealDay', () => {
@@ -78,7 +93,7 @@ describe('dealDay', () => {
   })
 
   it('does not give adult-only jobs to a child', () => {
-    const h = household()
+    const h = household({ startedOn: '2026-09-04' })
     const sheets = h.chores.find((c) => c.name === 'Change sheets')!
     const deal = dealDay(
       {

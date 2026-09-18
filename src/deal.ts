@@ -47,6 +47,10 @@ export function lastHandled(
   return done ?? skip
 }
 
+export function isDailyChore(chore: Chore): boolean {
+  return chore.dailyLocked || chore.baseDays <= 1
+}
+
 export function isDue(
   chore: Chore,
   household: Household,
@@ -56,9 +60,12 @@ export function isDue(
   const weekday = weekdayInZone(household.timezone, today)
   if (chore.weekday != null && weekday !== chore.weekday) return false
   const last = lastHandled(household, chore.id)
-  if (!last) return true
   if (last === today) return false
-  return diffDays(last, today) >= effectiveInterval(chore, household.pace)
+  const interval = effectiveInterval(chore, household.pace)
+  if (last) return diffDays(last, today) >= interval
+  if (isDailyChore(chore)) return true
+  const startedOn = household.startedOn || today
+  return diffDays(startedOn, today) >= interval
 }
 
 export function assignmentWeight(

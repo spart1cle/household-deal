@@ -43,6 +43,7 @@ export interface DayDeal {
 
 export interface Household {
   code: string
+  startedOn: string
   timezone: string
   pace: Pace
   people: Person[]

@@ -14,6 +14,7 @@ import {
   dealDay,
   optionalChores,
   pruneDays,
+  requiredChores,
 } from './deal'
 import { newHouseholdCode, newId, normalizeCode } from './ids'
 import {
@@ -155,9 +156,11 @@ export function HouseholdProvider({ children }: { children: ReactNode }) {
       if (!people.some((p) => p.role === 'adult')) {
         throw new Error('Add at least one adult so someone can manage the list.')
       }
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
       const next: Household = {
         code,
-        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        startedOn: todayInZone(timezone),
+        timezone,
         pace: 'normal',
         people,
         chores: starterCatalog(),
@@ -201,13 +204,25 @@ export function HouseholdProvider({ children }: { children: ReactNode }) {
   const ensureDeal = useCallback(async () => {
     if (!household) return
     const date = todayInZone(household.timezone)
-    if (household.days[date]) return
-    const deal = dealDay(household, date)
-    const lastAssigned = { ...household.lastAssigned }
-    for (const a of deal.assignments) {
-      if (a.required) lastAssigned[a.choreId] = a.personId
+    const current: Household = household.startedOn
+      ? household
+      : { ...household, startedOn: date }
+    const dueIds = new Set(requiredChores(current, date).map((c) => c.id))
+    const day = current.days[date]
+    const stale =
+      day?.assignments.some(
+        (a) => a.required && a.status === 'open' && !dueIds.has(a.choreId),
+      ) ?? false
+    if (day && !stale) {
+      if (current !== household) await persist(current)
+      return
     }
-    await persist(withDay({ ...household, lastAssigned }, date, deal))
+    const deal = dealDay(current, date, { keepCompleted: Boolean(day) })
+    const lastAssigned = { ...current.lastAssigned }
+    for (const a of deal.assignments) {
+      if (a.required && a.status === 'open') lastAssigned[a.choreId] = a.personId
+    }
+    await persist(withDay({ ...current, lastAssigned }, date, deal))
   }, [household, persist])
 
   const dealAgain = useCallback(async () => {
