@@ -1,0 +1,1 @@
+{"name":"Household Deal","short_name":"Deal","description":"A daily household chore lottery for the whole family.","start_url":"/household-deal/","display":"standalone","background_color":"#f6f7f5","theme_color":"#2f6f5e","lang":"en","scope":"/household-deal/","icons":[{"src":"icon.svg","sizes":"180x180","type":"image/svg+xml","purpose":"any"}]}
